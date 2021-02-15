@@ -405,7 +405,7 @@ function normalizeNoTyped (pcmData) {
 
 /**
  * Normalize audio input
- * 
+ *
  * If typed arrays are supported by the browser then a Float32Array will be returned
  * if nomalization is enabled; if not then a Int16Array will be returned. These are
  * much more efficient to work with since you can get subarrays without copying them.
@@ -413,8 +413,8 @@ function normalizeNoTyped (pcmData) {
  *
  * @param {Object} pcmData
  * @private
- * 
- * @returns {Int16Array|Float32Array|Array} 
+ *
+ * @returns {Int16Array|Float32Array|Array}
  */
 audioinput._normalizeAudio = hasTypedArrays ? normalizeToTyped : normalizeNoTyped;
 
@@ -457,8 +457,8 @@ audioinput._getNextToPlay = function () {
  */
 audioinput._playAudio = function (data) {
     try {
-        if (data && data.length > 0) {
-            var audioBuffer = audioinput._audioContext.createBuffer(audioinput._cfg.channels, (data.length / audioinput._cfg.channels), audioinput._cfg.sampleRate),
+        if (data && data[0] && data[0].length > 0) {
+            var audioBuffer = audioinput._audioContext.createBuffer(audioinput._cfg.channels, (data[0].length / audioinput._cfg.channels), audioinput._cfg.sampleRate),
                 chdata = [],
                 index = 0;
 
@@ -473,7 +473,7 @@ audioinput._playAudio = function (data) {
                 }
             }
             else {
-                audioBuffer.getChannelData(0).set(data);
+                audioBuffer.getChannelData(0).set(data[0]);
             }
 
             var source = audioinput._audioContext.createBufferSource();
